@@ -35,7 +35,7 @@ addFriendButton.addEventListener('click', () => {
     // get the name from the input
     let newFriendName = friendInputEl.value;
     if (friendInputEl.value === '') {
-        newFriendName = 'Bob-Bob';
+        newFriendName = `Friend #${Math.floor(Math.random() * 100)}`;
     }
     // create a new friend object
     const newFriend = { name: newFriendName, satisfaction: 1 };
@@ -79,14 +79,14 @@ function displayFriends() {
                 //             increment the friends satisfaction and decrement your mushrooms
                 friend.satisfaction++;
                 mushroomCount--;
+                //             then display your friends and mushrooms with the updated state ????????????
+                displayFriends();
+                displayMushrooms();
             } else if (mushroomCount <= 0) {
                 alert('You have no mushrooms left. Go hunting!');
             } else if (friend.satisfaction >= 3) {
                 alert('Your friend is full');
             }
-            //             then display your friends and mushrooms with the updated state ????????????
-            displayFriends();
-            displayMushrooms();
         });
     
         // append the friendEl to the friends list in DOM
