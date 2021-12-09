@@ -33,12 +33,17 @@ const friendData = [
 
 addFriendButton.addEventListener('click', () => {
     // get the name from the input
+    const newFriendName = friendInputEl.value;
     // create a new friend object
+    const newFriend = { name: newFriendName, satisfaction: 1 };
     
     // push it into the friends state array, passed in as an argument
+    friendData.push(newFriend);
 
     // reset the input
+    friendInputEl.value = '';
     // display all the friends (use a function here)
+    displayFriends();
 });
 
 
@@ -49,13 +54,14 @@ addMushroomButton.addEventListener('click', () => {
         mushroomCount++;
         displayMushrooms();
     } else {
-        alert('no luck!');
+        alert('no luck! try again!');
     }
 });
 
 
 function displayFriends() {
     // clear out the friends in DOM
+    friendsEl.textContent = '';
 
     // for each friend in state . . .
     for (let friend of friendData) {
@@ -63,14 +69,26 @@ function displayFriends() {
 
         // this is a clickable list, so . . .
         //     add an event listener to each friend
-        //         on click, go find the clicked friend in state
-        
-        //         and if the friend's satisfaction level is below 3 and you have mushrooms left
-        //             increment the friends satisfaction and decrement your mushrooms
-        //             mushroomCount--;
-        //             then display your friends and mushrooms with the updated state
+        friendEl.addEventListener('click', ()=> {
+            //         on click, go find the clicked friend in state - it's friend
+            //         and if the friend's satisfaction level is below 3 and you have mushrooms left
+            if (friend.satisfaction < 3 && mushroomCount > 0) {
+                //             increment the friends satisfaction and decrement your mushrooms
+                friend.satisfaction++;
+                mushroomCount--;
+            } else if (mushroomCount <= 0) {
+                alert('You have no mushrooms left. Go hunting!');
+            } else if (friend.satisfaction >= 3) {
+                alert('Youre friend is full');
+            }
+            //             then display your friends and mushrooms with the updated state ????????????
+            displayFriends();
+            displayMushrooms();
+        });
     
         // append the friendEl to the friends list in DOM
+        friendsEl.append(friendEl);
+
     }
     
 }
@@ -78,9 +96,12 @@ function displayFriends() {
 
 function displayMushrooms() { 
     // clear out the mushroom div
+    mushroomsEl.textContent = '';
 
     for (let i = 0; i < mushroomCount; i++) { 
         // for each mushroom in your mushroom state, render and append a mushroom
+        const mushroomEl = renderMushroom();
+        mushroomsEl.append(mushroomEl);
     }
 }
 
